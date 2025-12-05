@@ -104,11 +104,11 @@
     </section>
 
     <section class="portfolio" data-index="1">
-      <img src="../img2/1.jpeg" />
-      <img src="../img2/2.jpeg" />
-      <img src="../img2/3.jpeg" />
-      <img src="../img2/4.jpeg" />
-      <img src="../img2/5.jpeg" />
+      <img src="1.jpeg" />
+      <img src="2.jpeg" />
+      <img src="3.jpeg" />
+      <img src="4.jpeg" />
+      <img src="5.jpeg" />
     </section>
 
     <section class="about" data-index="2">
