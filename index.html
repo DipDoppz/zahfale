@@ -22,6 +22,7 @@
       width: 100vw;
       height: 100vh;
       overflow-y: scroll;
+      scroll-behavior: smooth;
     }
 
     section {
@@ -44,6 +45,7 @@
 
     .hero {
       background: url('https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1400&q=80') center/cover no-repeat;
+      text-align: center;
     }
 
     .hero h1 {
@@ -51,6 +53,7 @@
       text-shadow: 0 5px 20px rgba(0,0,0,0.7);
     }
 
+    /* PORTFOLIO — DESKTOP NORMAL */
     .portfolio {
       background: #111;
       display: flex;
@@ -73,8 +76,24 @@
       transform: scale(1.05);
     }
 
+    /* MOBILE MODE — PORTFOLIO SCROLLABLE */
+    @media (max-width: 768px) {
+      .portfolio {
+        flex-direction: column;
+        height: 100vh;
+        overflow-y: scroll;
+        align-content: flex-start;
+      }
+
+      .portfolio img {
+        width: 90vw;
+        height: auto;
+      }
+    }
+
     .about {
       background: url('https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=1400&q=80') center/cover no-repeat;
+      text-align: center;
     }
 
     .about .box {
@@ -82,7 +101,6 @@
       padding: 30px;
       border-radius: 15px;
       max-width: 600px;
-      text-align: center;
       backdrop-filter: blur(5px);
     }
 
@@ -93,6 +111,7 @@
       justify-content: center;
       align-items: center;
       gap: 15px;
+      text-align: center;
     }
   </style>
 </head>
@@ -129,8 +148,6 @@
   <script>
     const sections = document.querySelectorAll('section');
     const wrap = document.querySelector('.wrap');
-
-    wrap.style.scrollSnapType = 'none';
 
     let currentIndex = 0;
     let isScrolling = false;
@@ -172,14 +189,36 @@
       smoothScrollTo(targetY);
     }
 
-    wrap.addEventListener('wheel', (e) => {
+    // Desktop scroll wheel behavior
+    function enableDesktopScroll() {
+      wrap.addEventListener('wheel', onWheelDesktop);
+    }
+
+    function disableDesktopScroll() {
+      wrap.removeEventListener('wheel', onWheelDesktop);
+    }
+
+    function onWheelDesktop(e) {
       if (isScrolling) return;
       if (e.deltaY > 0 && currentIndex < sections.length - 1) {
         goToSection(currentIndex + 1);
       } else if (e.deltaY < 0 && currentIndex > 0) {
         goToSection(currentIndex - 1);
       }
-    });
+    }
+
+    // Enable / disable based on screen width
+    function checkMode() {
+      if (window.innerWidth <= 768) {
+        disableDesktopScroll();
+        wrap.style.overflowY = 'scroll';
+      } else {
+        enableDesktopScroll();
+      }
+    }
+
+    checkMode();
+    window.addEventListener('resize', checkMode);
 
     const io = new IntersectionObserver(entries => {
       entries.forEach(entry => {
